@@ -5,7 +5,7 @@ import uz.gita.shop_app.data.model.CategoryData
 
 interface ShopContract {
     sealed interface Intent {
-        object LoadData : Intent
+        data class LoadData(val name:String) : Intent
     }
 
     sealed interface UiState {

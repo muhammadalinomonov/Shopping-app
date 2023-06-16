@@ -29,8 +29,8 @@ class ShopModel @Inject constructor(private val repository: ShopRepository) : Sc
 
     override fun onEventDispatcher(intent: ShopContract.Intent) {
         when (intent) {
-            ShopContract.Intent.LoadData -> {
-                repository.getAllProducts().onEach {
+            is ShopContract.Intent.LoadData -> {
+                repository.getAllProducts(intent.name).onEach {
                     it.onSuccess { categories ->
                         intent {
                             reduce {

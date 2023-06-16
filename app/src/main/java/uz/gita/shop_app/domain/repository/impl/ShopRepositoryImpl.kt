@@ -21,8 +21,8 @@ class ShopRepositoryImpl @Inject constructor() : ShopRepository {
     @Inject
     lateinit var sharedPref: SharedPref
 
-    override fun getAllProducts(): Flow<Result<List<CategoryData>>> = flow {
-        emit(getList())
+    override fun getAllProducts(name: String): Flow<Result<List<CategoryData>>> = flow {
+        emit(getList(name))
     }
 
     override fun getOwnProducts(): Flow<Result<List<ProductData>>> = flow {
@@ -53,7 +53,7 @@ class ShopRepositoryImpl @Inject constructor() : ShopRepository {
     }
 
 
-    private suspend fun getList(): Result<List<CategoryData>> {
+    private suspend fun getList(name: String): Result<List<CategoryData>> {
         try {
             val a = db.collection("category")
                 .get()
@@ -77,13 +77,15 @@ class ShopRepositoryImpl @Inject constructor() : ShopRepository {
                     }
                 }
 
-                resultList.add(
-                    CategoryData(
-                        id = it.get("id") as Long,
-                        name = it.get("name") as String,
-                        items = productList
+                if ((it.get("name") as String).startsWith(name)) {
+                    resultList.add(
+                        CategoryData(
+                            id = it.get("id") as Long,
+                            name = it.get("name") as String,
+                            items = productList
+                        )
                     )
-                )
+                }
             }
             return Result.success(resultList)
         } catch (e: Exception) {

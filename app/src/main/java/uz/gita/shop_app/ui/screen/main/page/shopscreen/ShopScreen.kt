@@ -64,9 +64,9 @@ class ShopScreen : AppScreen(), Tab {
         onEventDispatcher: (ShopContract.Intent) -> Unit
     ) {
 
-        onEventDispatcher(ShopContract.Intent.LoadData)
-
         var search by remember { mutableStateOf("") }
+        onEventDispatcher(ShopContract.Intent.LoadData(search))
+
 
         when(uiState) {
             is ShopContract.UiState.Categories -> {
