@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.hilt.getScreenModel
 import uz.gita.shop_app.R
-import uz.gita.shop_app.data.model.ProductData
 import uz.gita.shop_app.navigation.AppScreen
 import uz.gita.shopappexam.data.locale.SharedPref
 import javax.inject.Inject
@@ -51,6 +50,7 @@ class AddProductScreen : AppScreen() {
 
     @Inject
     lateinit var sharedPref: SharedPref
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AddScreenContent(screenModel: AddProductModel) {
@@ -59,6 +59,7 @@ class AddProductScreen : AppScreen() {
         var price by remember { mutableStateOf("") }
         var description by remember { mutableStateOf("") }
         var category by remember { mutableStateOf("") }
+        var categoryState by remember { mutableStateOf(category.isNotEmpty()) }
 
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -71,7 +72,7 @@ class AddProductScreen : AppScreen() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { screenModel.onEventDispatcher(AddProductScreenContract.Intent.Back) }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
                     Text(text = "Add product")
@@ -145,8 +146,11 @@ class AddProductScreen : AppScreen() {
                 )
 
                 LazyRow {
-                   items(categoryList()) {
-                        Button(onClick = { category = it}, modifier = Modifier.padding(horizontal = 4.dp)) {
+                    items(categoryList()) {
+                        Button(onClick = {
+                            categoryState = true
+                            category = it
+                        }, modifier = Modifier.padding(horizontal = 4.dp)) {
                             Text(text = it)
                         }
                     }
@@ -160,10 +164,17 @@ class AddProductScreen : AppScreen() {
                 Button(
                     onClick = {
                         screenModel.onEventDispatcher(
-                            AddProductScreenContract.Intent.AddProduct(productName, price, description, category))
+                            AddProductScreenContract.Intent.AddProduct(
+                                productName,
+                                price,
+                                description,
+                                category
+                            )
+                        )
                     }, modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(bottom = 12.dp)
+                        .padding(bottom = 12.dp),
+                    enabled = categoryState
                 ) {
                     Text(text = "Add to bag")
                 }
@@ -177,9 +188,12 @@ class AddProductScreen : AppScreen() {
 
     }
 }
+
 private fun categoryList(): List<String> {
     val list = arrayListOf<String>()
     list.add("Airmax")
     list.add("Maxi BOX")
+    list.add("Shovurma")
+    list.add("Lavash")
     return list
 }

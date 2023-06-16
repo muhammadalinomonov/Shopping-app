@@ -48,7 +48,7 @@ fun CustomSearchView(
             ),
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
 //            trailingIcon = { Icon(imageVector = Icons.Default.Clear, contentDescription = "") },
-            placeholder = { Text(text = "Search", color = Color.Black) }
+            placeholder = { Text(text = "Search by category", color = Color.Black) }
         )
     }
 }

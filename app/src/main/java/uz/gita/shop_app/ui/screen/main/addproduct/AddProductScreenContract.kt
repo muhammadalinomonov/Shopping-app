@@ -9,6 +9,7 @@ import javax.inject.Inject
 interface AddProductScreenContract {
 
     sealed interface Intent {
+        object Back:Intent
         data class AddProduct(val productName:String, val price:String, val description:String, val category:String): Intent
     }
 
