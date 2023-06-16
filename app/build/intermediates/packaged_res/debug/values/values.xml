@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Shop app</string>
+    <string name="default_web_client_id" translatable="false">694032261831-n6k9jloa10ld7mefuqssqdv64le2i3k0.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">694032261831</string>
+    <string name="google_api_key" translatable="false">AIzaSyCV8ZvcUHzonlSrZohAd7niT230pc_lrIU</string>
+    <string name="google_app_id" translatable="false">1:694032261831:android:894bad5df26e8af75814e2</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCV8ZvcUHzonlSrZohAd7niT230pc_lrIU</string>
+    <string name="google_storage_bucket" translatable="false">shopping-app-98799.appspot.com</string>
+    <string name="project_id" translatable="false">shopping-app-98799</string>
+    <style name="Theme.ShopApp" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>
