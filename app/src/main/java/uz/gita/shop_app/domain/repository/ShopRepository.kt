@@ -5,8 +5,11 @@ import uz.gita.shop_app.data.model.CategoryData
 import uz.gita.shop_app.data.model.ProductData
 
 interface ShopRepository {
-    fun getAllProducts(name:String): Flow<Result<List<CategoryData>>>
+    fun getAllProducts(name: String): Flow<Result<List<CategoryData>>>
     fun getOwnProducts(): Flow<Result<List<ProductData>>>
     fun addProduct(productData: ProductData): Flow<Result<Unit>>
+
+    fun addCategory(name: String):Flow<Result<List<String>>>
+    fun getCategories(): Flow<Result<List<String>>>
 
 }

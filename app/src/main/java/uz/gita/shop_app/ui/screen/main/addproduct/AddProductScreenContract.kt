@@ -10,6 +10,8 @@ interface AddProductScreenContract {
 
     sealed interface Intent {
         object Back:Intent
+        object  LoadCategories:Intent
+        data class AddCategory(val category: String):Intent
         data class AddProduct(val productName:String, val price:String, val description:String, val category:String): Intent
     }
 
@@ -19,7 +21,7 @@ interface AddProductScreenContract {
 
     sealed interface UiState {
         object Loading : UiState
-        data class Categories(val productData: ProductData): UiState
+        data class Categories(val list: List<String>): UiState
     }
 
     sealed interface SideEffect {

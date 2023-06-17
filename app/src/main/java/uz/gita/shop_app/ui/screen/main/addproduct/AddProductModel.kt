@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
 import uz.gita.shop_app.data.model.ProductData
 import uz.gita.shop_app.domain.repository.ShopRepository
 import uz.gita.shopappexam.data.locale.SharedPref
@@ -58,6 +61,36 @@ class AddProductModel @Inject constructor(
                 modelScope.launch {
                     direction.back()
                 }
+            }
+            is AddProductScreenContract.Intent.LoadCategories -> {
+                repository.getCategories().onEach {
+                    it.onSuccess { it ->
+                        intent {
+                            reduce {
+                                AddProductScreenContract.UiState.Categories(it)
+                            }
+                        }
+                    }
+                    it.onFailure {
+                        intent {
+                            postSideEffect(AddProductScreenContract.SideEffect.HasError(it.message!!))
+                        }
+                    }
+                }.launchIn(modelScope)
+            }
+
+            is AddProductScreenContract.Intent.AddCategory -> {
+                Log.d("bbb", "AddCategory")
+                repository.addCategory(intent.category)
+                    .onEach {
+                        it.onSuccess {
+                            intent{
+                                reduce {
+                                    AddProductScreenContract.UiState.Categories(it)
+                                }
+                            }
+                        }
+                    }.launchIn(modelScope)
             }
         }
     }
