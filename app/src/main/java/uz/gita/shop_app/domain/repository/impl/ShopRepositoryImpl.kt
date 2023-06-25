@@ -1,6 +1,8 @@
 package uz.gita.shop_app.domain.repository.impl
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 class ShopRepositoryImpl @Inject constructor() : ShopRepository {
     private val db = Firebase.firestore
+    private val auth: FirebaseAuth = Firebase.auth
 
     private var hasCategory = false
     private val list = arrayListOf<ProductData>()
@@ -134,7 +137,7 @@ class ShopRepositoryImpl @Inject constructor() : ShopRepository {
 
                 subCollection.forEach { product ->
                     productList.add(product.toObject(ProductData::class.java))
-                    if (productList.last().userId == sharedPref.email && !list.contains(
+                    if (productList.last().userId == auth.currentUser!!.email && !list.contains(
                             productList.last()
                         )
                     ) {
