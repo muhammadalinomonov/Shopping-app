@@ -21,9 +21,6 @@ class ShopModel @Inject constructor(private val repository: ShopRepository) : Sc
 
     private val modelScope = CoroutineScope(Dispatchers.Main + Job())
 
-
-
-
     override val container =
         coroutineScope.container<ShopContract.UiState, ShopContract.SideEffect>(ShopContract.UiState.Loading)
 
@@ -53,7 +50,7 @@ class ShopModel @Inject constructor(private val repository: ShopRepository) : Sc
 
                 repository.getOwnProducts().onEach {
                     it.onSuccess {
-                            Log.d("III", it.toString())
+                        Log.d("III", it.toString())
                     }
                     it.onFailure {
                         Log.d("III", it.message!!)
@@ -62,5 +59,4 @@ class ShopModel @Inject constructor(private val repository: ShopRepository) : Sc
             }
         }
     }
-
 }
